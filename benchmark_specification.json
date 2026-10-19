@@ -37,7 +37,7 @@
   {
     "field_name": "Metrics",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "#1: Null syscall latency, us (lat_syscall_null_us); #2: Context-switch latency, us (context_switch_latency_us); #3: 16 MB stride-128 read latency, ns (lat_mem_rd_16mb_stride128_ns); #4: Memory read bandwidth, MB/s (bw_mem_mb_s); #5: Inter-process pipe bandwidth, MB/s (bw_pipe_mb_s)"
+    "value": "#1: Null syscall latency, us (lat_syscall_null_us); #2: Context-switch latency, us (context_switch_latency_us); #3: 16 MB stride-128 sequential-read latency, cache- and prefetch-assisted, ns (lat_mem_rd_16mb_stride128_ns); #4: Single-thread memory read bandwidth, MB/s (bw_mem_mb_s); #5: Inter-process pipe bandwidth, MB/s (bw_pipe_mb_s)"
   },
   {
     "field_name": "Command Tools Executed",
