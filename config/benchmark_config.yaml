@@ -16,13 +16,7 @@ sweep:
     smoke: 1000
     baseline: 1000000
     extended: 1000000
-  lat_ctx: 1
-  lat_mem_rd: 1
-  bw_mem: 1
-  bw_pipe: 1
-  lat_syscall: 1
   repetitions:
     smoke: 1
     baseline: 5
     extended: 14
-  output_format: csv

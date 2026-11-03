@@ -2,7 +2,7 @@
 
 ## Execution Description
 
-Runs a fixed lmbench subset: lat_syscall null, read, and write; lat_ctx; lat_mem_rd 16 128; bw_mem 512m rd; bw_pipe. repetitions: how many times the subset is repeated. parallel_jobs, warmup_duration_us, and per-test enable flags are yaml fields and are ignored. Does not run lat_pipe, lat_unix, or lat_proc. Sweep dimensions: parallel_jobs, warmup_duration_us, lat_ctx, lat_mem_rd, bw_mem, bw_pipe, lat_syscall, repetitions.
+Runs a fixed lmbench subset: lat_syscall null, read, and write; lat_ctx; lat_mem_rd 16 128; bw_mem 512m rd; bw_pipe. repetitions: how many times the subset is repeated. parallel_jobs, warmup_duration_us, and per-test enable flags are yaml fields and are ignored. Does not run lat_pipe, lat_unix, or lat_proc Sweep dimensions: parallel_jobs, warmup_duration_us, repetitions.
 
 ## Parameters
 
@@ -10,13 +10,7 @@ Runs a fixed lmbench subset: lat_syscall null, read, and write; lat_ctx; lat_mem
 | --- | --- | --- | --- | --- |
 | parallel_jobs | `--parallel-jobs` | smoke=1, baseline=2, extended=2 | 2 | From Parameter list; see Execution Description With Parameters. |
 | warmup_duration_us | `--warmup-duration-us` | smoke=1000, baseline=1000000, extended=1000000 | 1000000 | From Parameter list; see Execution Description With Parameters. |
-| lat_ctx | `--lat-ctx` | smoke=1, baseline=1, extended=1 | 1 | From Parameter list; see Execution Description With Parameters. |
-| lat_mem_rd | `--lat-mem-rd` | smoke=1, baseline=1, extended=1 | 1 | From Parameter list; see Execution Description With Parameters. |
-| bw_mem | `--bw-mem` | smoke=1, baseline=1, extended=1 | 1 | From Parameter list; see Execution Description With Parameters. |
-| bw_pipe | `--bw-pipe` | smoke=1, baseline=1, extended=1 | 1 | From Parameter list; see Execution Description With Parameters. |
-| lat_syscall | `--lat-syscall` | smoke=1, baseline=1, extended=1 | 1 | From Parameter list; see Execution Description With Parameters. |
 | repetitions | `--repetitions` | smoke=1, baseline=5, extended=14 | 5 | From Parameter list; see Execution Description With Parameters. |
-| output_format | `--output-format` | smoke=csv, baseline=csv, extended=csv | csv | From Parameter list; see Execution Description With Parameters. |
 
 ## Invocation
 

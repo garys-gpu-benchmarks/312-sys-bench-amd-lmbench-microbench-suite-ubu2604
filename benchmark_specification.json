@@ -57,7 +57,7 @@
   {
     "field_name": "Execution Description With Parameters",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "Runs a fixed lmbench subset: lat_syscall null, read, and write; lat_ctx; lat_mem_rd 16 128; bw_mem 512m rd; bw_pipe. repetitions: how many times the subset is repeated. parallel_jobs, warmup_duration_us, and per-test enable flags are yaml fields and are ignored. Does not run lat_pipe, lat_unix, or lat_proc. output_format: csv"
+    "value": "Runs a fixed lmbench subset: lat_syscall null, read, and write; lat_ctx; lat_mem_rd 16 128; bw_mem 512m rd; bw_pipe. repetitions: how many times the subset is repeated. parallel_jobs, warmup_duration_us, and per-test enable flags are yaml fields and are ignored. Does not run lat_pipe, lat_unix, or lat_proc"
   },
   {
     "field_name": "Execution Domain",
@@ -102,17 +102,17 @@
   {
     "field_name": "run_benchmark Command Plus Options for Smoke Run",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "bash run_benchmark.sh --smoke --validate --parallel-jobs 1 --warmup-duration-us 1000 --lat-ctx 1 --lat-mem-rd 1 --bw-mem 1 --bw-pipe 1 --lat-syscall 1 --repetitions 1 --output-format csv"
+    "value": "bash run_benchmark.sh --smoke --validate --parallel-jobs 1 --warmup-duration-us 1000 --repetitions 1"
   },
   {
     "field_name": "run_benchmark Command Plus Options for Baseline Run",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "bash run_benchmark.sh --baseline --validate --parallel-jobs 2 --warmup-duration-us 1000000 --lat-ctx 1 --lat-mem-rd 1 --bw-mem 1 --bw-pipe 1 --lat-syscall 1 --repetitions 5 --output-format csv"
+    "value": "bash run_benchmark.sh --baseline --validate --parallel-jobs 2 --warmup-duration-us 1000000 --repetitions 5"
   },
   {
     "field_name": "run_benchmark Command Plus Options for Extended Run",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "bash run_benchmark.sh --extended --validate --parallel-jobs 2 --warmup-duration-us 1000000 --lat-ctx 1 --lat-mem-rd 1 --bw-mem 1 --bw-pipe 1 --lat-syscall 1 --repetitions 14 --output-format csv"
+    "value": "bash run_benchmark.sh --extended --validate --parallel-jobs 2 --warmup-duration-us 1000000 --repetitions 14"
   },
   {
     "field_name": "Output Fields / Metrics to Parse",
@@ -237,37 +237,37 @@
   {
     "field_name": "Parameter_03",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "lat_ctx"
+    "value": "repetitions"
   },
   {
     "field_name": "Parameter_04",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "lat_mem_rd"
+    "value": "-"
   },
   {
     "field_name": "Parameter_05",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "bw_mem"
+    "value": "-"
   },
   {
     "field_name": "Parameter_06",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "bw_pipe"
+    "value": "-"
   },
   {
     "field_name": "Parameter_07",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "lat_syscall"
+    "value": "-"
   },
   {
     "field_name": "Parameter_08",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "repetitions"
+    "value": "-"
   },
   {
     "field_name": "Parameter_09",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "output_format"
+    "value": "-"
   },
   {
     "field_name": "Parameter_10",
@@ -407,7 +407,7 @@
   {
     "field_name": "Profile Parameter Values",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Parameters_SmokeBaselineExtend",
-    "value": "{\"parallel_jobs\": {\"smoke\": \"1\", \"baseline\": \"2\", \"extended\": \"2\", \"notes\": \"Subtest timeout is not a Parameter_*. Generation must use 30s/60s/120s by profile plus one retry.\"}, \"warmup_duration_us\": {\"smoke\": \"1000\", \"baseline\": \"1000000\", \"extended\": \"1000000\", \"notes\": \"\"}, \"lat_ctx\": {\"smoke\": \"1\", \"baseline\": \"1\", \"extended\": \"1\", \"notes\": \"\"}, \"lat_mem_rd\": {\"smoke\": \"1\", \"baseline\": \"1\", \"extended\": \"1\", \"notes\": \"\"}, \"bw_mem\": {\"smoke\": \"1\", \"baseline\": \"1\", \"extended\": \"1\", \"notes\": \"\"}, \"bw_pipe\": {\"smoke\": \"1\", \"baseline\": \"1\", \"extended\": \"1\", \"notes\": \"\"}, \"lat_syscall\": {\"smoke\": \"1\", \"baseline\": \"1\", \"extended\": \"1\", \"notes\": \"\"}, \"repetitions\": {\"smoke\": \"1\", \"baseline\": \"5\", \"extended\": \"14\", \"notes\": \"VM 2026-08-16 repetitions=36 -> 201s (3:21). Extended 107 extrapolated ~10:00, not tested. Retimed 2026-08-17 toward 3-4 min baseline; extended scaled by the same factor. | 2026-09-24 GARY_LEDGER (runtime_ledger_ALL_FOUR / Edit3, Gary questions; targets baseline ~4:00 in 3-5 min, extended ~11:30 in 8-15 min): 5/7 -> 3/9. baseline reps=5 measured 4:50/6:01/8:19/15:50 (median ~7:10, ~86s/rep); extended reps=7 measured 5:46/8:03/9:10/9:46 (~74s/rep) -> 3 (~4:00) / 9 (~11:10). Same lmbench run-to-run spread as 112. Unconfirmed by a fresh run. | 2026-09-28 GARY_LEDGER (aggregated_runtime_ledgers_101_201_301_401_20260928_9am; targets baseline 3-5 min, extended 8-15 min): 3/9 -> 5/9. baseline 3 measured 2:11/2:20 (~45 s/repetition) -> 5 (~3:45). Extended 9 measured 9:09/13:14, left unchanged. Unconfirmed by a fresh run.\"}, \"output_format\": {\"smoke\": \"csv\", \"baseline\": \"csv\", \"extended\": \"csv\", \"notes\": \"\"}}"
+    "value": "{\"parallel_jobs\": {\"smoke\": \"1\", \"baseline\": \"2\", \"extended\": \"2\", \"notes\": \"Subtest timeout is not a Parameter_*. Generation must use 30s/60s/120s by profile plus one retry.\"}, \"warmup_duration_us\": {\"smoke\": \"1000\", \"baseline\": \"1000000\", \"extended\": \"1000000\", \"notes\": \"\"}, \"repetitions\": {\"smoke\": \"1\", \"baseline\": \"5\", \"extended\": \"14\", \"notes\": \"VM 2026-08-16 repetitions=36 -> 201s (3:21). Extended 107 extrapolated ~10:00, not tested. Retimed 2026-08-17 toward 3-4 min baseline; extended scaled by the same factor. | 2026-09-24 GARY_LEDGER (runtime_ledger_ALL_FOUR / Edit3, Gary questions; targets baseline ~4:00 in 3-5 min, extended ~11:30 in 8-15 min): 5/7 -> 3/9. baseline reps=5 measured 4:50/6:01/8:19/15:50 (median ~7:10, ~86s/rep); extended reps=7 measured 5:46/8:03/9:10/9:46 (~74s/rep) -> 3 (~4:00) / 9 (~11:10). Same lmbench run-to-run spread as 112. Unconfirmed by a fresh run. | 2026-09-28 GARY_LEDGER (aggregated_runtime_ledgers_101_201_301_401_20260928_9am; targets baseline 3-5 min, extended 8-15 min): 3/9 -> 5/9. baseline 3 measured 2:11/2:20 (~45 s/repetition) -> 5 (~3:45). Extended 9 measured 9:09/13:14, left unchanged. Unconfirmed by a fresh run.\"}}"
   },
   {
     "field_name": "Profile Command Authorship",
