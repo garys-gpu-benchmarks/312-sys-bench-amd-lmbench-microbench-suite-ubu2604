@@ -45,7 +45,6 @@ Validation and logging:
   --save-options-file <path>    Write resolved CLI options to PATH
 
 Workload options:
-  --parallel-jobs <value>            Override parallel_jobs
   --warmup-duration-us <value>            Override warmup_duration_us
   --repetitions <value>            Override repetitions
 
@@ -81,7 +80,6 @@ QUIET=0
 LOG_LEVEL_VALUE="INFO"
 OUTPUT_FORMAT=""
 SAVE_OPTIONS_FILE=""
-PARALLEL_JOBS=""
 WARMUP_DURATION_US=""
 REPETITIONS=""
 
@@ -104,7 +102,6 @@ while [[ $# -gt 0 ]]; do
     --log-level) LOG_LEVEL_VALUE="${2:-}"; shift 2 ;;
     --output-format) OUTPUT_FORMAT="${2:-}"; shift 2 ;;
     --save-options-file) SAVE_OPTIONS_FILE="${2:-}"; shift 2 ;;
-    --parallel-jobs) PARALLEL_JOBS="${2:-}"; shift 2 ;;
     --warmup-duration-us) WARMUP_DURATION_US="${2:-}"; shift 2 ;;
     --repetitions) REPETITIONS="${2:-}"; shift 2 ;;
     --help|--specification|--matrix-definition) shift ;;
@@ -145,7 +142,6 @@ print("" if raw_value is None else raw_value)
 PY
 }
 
-PARALLEL_JOBS="${PARALLEL_JOBS:-$(yaml_get parallel_jobs)}"
 WARMUP_DURATION_US="${WARMUP_DURATION_US:-$(yaml_get warmup_duration_us)}"
 REPETITIONS="${REPETITIONS:-$(yaml_get repetitions)}"
 OUTPUT_FORMAT="${OUTPUT_FORMAT:-$(yaml_get output_format)}"
@@ -153,7 +149,6 @@ OUTPUT_FORMAT="${OUTPUT_FORMAT:-csv}"
 
 BENCHMARK_RUN_COMMAND="bash run_benchmark.sh --${PROFILE}"
 [[ "${VALIDATE}" -eq 1 ]] && BENCHMARK_RUN_COMMAND+=" --validate"
-[[ -n "${PARALLEL_JOBS}" ]] && BENCHMARK_RUN_COMMAND+=" --parallel-jobs $(printf %q "${PARALLEL_JOBS}")"
 [[ -n "${WARMUP_DURATION_US}" ]] && BENCHMARK_RUN_COMMAND+=" --warmup-duration-us $(printf %q "${WARMUP_DURATION_US}")"
 [[ -n "${REPETITIONS}" ]] && BENCHMARK_RUN_COMMAND+=" --repetitions $(printf %q "${REPETITIONS}")"
 set_benchmark_run_command "${BENCHMARK_RUN_COMMAND}"
@@ -198,7 +193,6 @@ run_collection() {
     collect_args+=(--device-id "${DEVICE_ID:-0}")
   fi
   grep -q -- '--output-format' <<<"${help}" && collect_args+=(--output-format "${OUTPUT_FORMAT}")
-  grep -q -- '--parallel-jobs' <<<"${help}" && collect_args+=(--parallel-jobs "${PARALLEL_JOBS}")
   grep -q -- '--warmup-duration-us' <<<"${help}" && collect_args+=(--warmup-duration-us "${WARMUP_DURATION_US}")
   grep -q -- '--repetitions' <<<"${help}" && collect_args+=(--repetitions "${REPETITIONS}")
 

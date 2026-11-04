@@ -8,14 +8,10 @@
 # Add thresholds: or baselines: from hardware_profile.mi300x.yaml and Workload Type.
 sweep:
   profile: smoke
-  parallel_jobs:
-    smoke: 1
-    baseline: 2
-    extended: 2
   warmup_duration_us:
     smoke: 1000
-    baseline: 1000000
-    extended: 1000000
+    baseline: 10000
+    extended: 10000
   repetitions:
     smoke: 1
     baseline: 5
