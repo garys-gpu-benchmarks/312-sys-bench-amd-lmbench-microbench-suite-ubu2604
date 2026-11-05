@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # File: run_benchmark.sh
 # Description: Runs a fixed lmbench subset: lat_syscall null, read, and write; lat_ctx; lat_mem_rd 16 128; bw_mem 512m rd; bw_pipe.
-# Execution: bash run_benchmark.sh [--smoke|--baseline|--extended] [--validate]
-# Options: --smoke, --baseline, --extended, --config, --validate, --help
+# Execution: bash run_benchmark.sh [--smoke|--baseline|--extended]
+# Options: --smoke, --baseline, --extended, --config, --help
 # Requirements: bash, python3, repository-local .venv
 # Dependencies: common.sh, collect_workload.py
 # License: Apache-2.0
@@ -20,32 +20,27 @@ Usage: bash run_benchmark.sh [OPTIONS]
 
 Runs a fixed lmbench subset: lat_syscall null, read, and write; lat_ctx; lat_mem_rd 16 128; bw_mem 512m rd; bw_pipe.
 
-Profiles:
+Profiles (default: --smoke):
   --smoke                       Run smoke profile
   --baseline                    Run baseline profile
   --extended                    Run extended profile
 
-Execution:
-  --config <file>               Config file (default: config/benchmark_config.yaml)
-
-Validation and logging:
-  --validate                    Enable result validation (default)
-  --no-validate                 Skip result validation
-  --quiet                       Suppress nonessential stdout
-  --log-level <level>           ERROR|WARN|INFO|DEBUG (default: INFO)
-
-Workload options:
+Parameters (override the profile's value):
   --warmup-duration-us <value>  Shared workload parameter (smoke 1000, baseline 10000, extended 10000)
   --repetitions <value>         Shared workload parameter (smoke 1, baseline 5, extended 14)
 
-Information:
+General options:
+  --config <file>               Config file (default: config/benchmark_config.yaml)
+  --quiet                       Suppress nonessential stdout
+  --log-level <level>           ERROR|WARN|INFO|DEBUG (default: INFO)
   --specification               Print this workload's specification and exit
   --help                        Show this help and exit
 
 Examples:
-  bash run_benchmark.sh --smoke --validate
-  bash run_benchmark.sh --baseline --validate
-  bash run_benchmark.sh --extended --validate
+  bash run_benchmark.sh --smoke
+  bash run_benchmark.sh --baseline
+  bash run_benchmark.sh --extended
+  bash run_benchmark.sh --baseline --repetitions 2
 USAGE
 }
 
@@ -61,7 +56,6 @@ done
 
 PROFILE="smoke"
 CONFIG_FILE="config/benchmark_config.yaml"
-VALIDATE=1
 QUIET=0
 LOG_LEVEL_VALUE="INFO"
 WARMUP_DURATION_US=""
@@ -73,8 +67,7 @@ while [[ $# -gt 0 ]]; do
     --baseline) PROFILE="baseline"; shift ;;
     --extended) PROFILE="extended"; shift ;;
     --config) CONFIG_FILE="${2:-}"; shift 2 ;;
-    --validate) VALIDATE=1; shift ;;
-    --no-validate) VALIDATE=0; shift ;;
+    --validate) shift ;;  # ignored; result validation always runs
     --quiet) QUIET=1; shift ;;
     --log-level) LOG_LEVEL_VALUE="${2:-}"; shift 2 ;;
     --warmup-duration-us) WARMUP_DURATION_US="${2:-}"; shift 2 ;;
@@ -116,7 +109,6 @@ OUTPUT_FORMAT="$(yaml_get output_format)"
 OUTPUT_FORMAT="${OUTPUT_FORMAT:-csv}"
 
 BENCHMARK_RUN_COMMAND="bash run_benchmark.sh --${PROFILE}"
-[[ "${VALIDATE}" -eq 1 ]] && BENCHMARK_RUN_COMMAND+=" --validate"
 [[ -n "${WARMUP_DURATION_US}" ]] && BENCHMARK_RUN_COMMAND+=" --warmup-duration-us $(printf %q "${WARMUP_DURATION_US}")"
 [[ -n "${REPETITIONS}" ]] && BENCHMARK_RUN_COMMAND+=" --repetitions $(printf %q "${REPETITIONS}")"
 set_benchmark_run_command "${BENCHMARK_RUN_COMMAND}"
@@ -180,7 +172,7 @@ run_validate() {
 
 run_collection
 run_parse
-[[ "${VALIDATE}" -eq 1 ]] && run_validate
+run_validate
 record_benchmark_stop
 capture_journal_warnings "${RUN_DIR}" "${BENCHMARK_START_DATETIME}" "${STOP_TIME}"
 bash scripts/collect_hw_sw_info.sh "${RUN_DIR}"
