@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # File: run_benchmark.sh
-# Description: Runs a fixed lmbench subset: lat_syscall null, read, and write; lat_ctx; lat_mem_rd 16 128; bw_mem 512m rd; bw_pipe.
+# Description: Runs a fixed lmbench subset: lat_syscall null and read; lat_ctx; lat_mem_rd 16 128; bw_mem 512m rd; bw_pipe.
 # Execution: bash run_benchmark.sh [--smoke|--baseline|--extended]
 # Options: --smoke, --baseline, --extended, --config, --help
 # Requirements: bash, python3, repository-local .venv
@@ -18,7 +18,12 @@ usage() {
   cat <<'USAGE'
 Usage: bash run_benchmark.sh [OPTIONS]
 
-Runs a fixed lmbench subset: lat_syscall null, read, and write; lat_ctx; lat_mem_rd 16 128; bw_mem 512m rd; bw_pipe.
+Workload Name:          lmbench Microbench Suite.
+Main Goal:              Measure a fixed lmbench OS microbenchmark subset.
+Validation Objective:   Validates finite lmbench syscall, context-switch, memory-latency,
+                        memory-bandwidth, and pipe-bandwidth results.
+Command Tools Executed: Run lmbench lat_syscall (null, read), lat_ctx, lat_mem_rd 16 128, bw_mem
+                        512m rd, and bw_pipe.
 
 Profiles (default: --smoke):
   --smoke                       Run smoke profile
@@ -32,7 +37,7 @@ Parameters (override the profile's value):
 General options:
   --config <file>               Config file (default: config/benchmark_config.yaml)
   --quiet                       Suppress nonessential stdout
-  --log-level <level>           ERROR|WARN|INFO|DEBUG (default: INFO)
+  --log-level <level>           ERROR|WARN|INFO|DEBUG (default: INFO; DEBUG also prints [RUN] commands)
   --specification               Print this workload's specification and exit
   --help                        Show this help and exit
 
@@ -53,6 +58,8 @@ for _help_arg in "$@"; do
       ;;
   esac
 done
+
+run_profiles_in_order "${REPO_ROOT}/run_benchmark.sh" "$@"
 
 PROFILE="smoke"
 CONFIG_FILE="config/benchmark_config.yaml"
@@ -114,8 +121,7 @@ BENCHMARK_RUN_COMMAND="bash run_benchmark.sh --${PROFILE}"
 set_benchmark_run_command "${BENCHMARK_RUN_COMMAND}"
 
 HOSTNAME_VALUE="$(hostname -s 2>/dev/null || hostname)"
-STAMP="$(date -u +"%Y%m%d_%H%M%S")"
-RUN_DIR="${REPO_ROOT}/results/raw/${STAMP}_${REPO_NAME}_${HOSTNAME_VALUE}"
+RUN_DIR="${REPO_ROOT}/results/raw/$(benchmark_raw_run_dir_name "${REPO_NAME}" "${HOSTNAME_VALUE}")"
 mkdir -p "${RUN_DIR}"
 RAW_FILE="${RUN_DIR}/raw_output.txt"
 set_benchmark_run_dir "${RUN_DIR}"
@@ -141,10 +147,10 @@ run_collection() {
   grep -q -- '--repetitions' <<<"${help}" && collect_args+=(--repetitions "${REPETITIONS}")
 
   printf -v collect_cmd '%q ' "${PYTHON_BIN}" scripts/collect_workload.py "${collect_args[@]}"
-  echo "[RUN] ${collect_cmd}"
+  log_run "${collect_cmd}"
   echo "${collect_cmd}" >> "${COMMAND_LOG}"
   set +e
-  "${PYTHON_BIN}" scripts/collect_workload.py "${collect_args[@]}" 2>&1 | tee -a "${RUN_DIR}/run.log"
+  "${PYTHON_BIN}" scripts/collect_workload.py "${collect_args[@]}" 2>&1 | tee -a "${RUN_DIR}/run.log" | hide_run_lines
   command_status="${PIPESTATUS[0]}"
   set -e
   if [[ "${command_status}" -ne 0 ]]; then
@@ -156,7 +162,7 @@ run_parse() {
   log_section "Parse"
   local parse_cmd
   printf -v parse_cmd '%q ' "${PYTHON_BIN}" scripts/parse_results.py --raw-file "${RAW_FILE}" --db "${REPO_ROOT}/results/benchmark.db" --summary "${REPO_ROOT}/results/summary.json" --definition "${REPO_ROOT}/benchmark_specification.json" --run-dir "${RUN_DIR}"
-  echo "[RUN] ${parse_cmd}"
+  log_run "${parse_cmd}"
   echo "${parse_cmd}" >> "${COMMAND_LOG}"
   "${PYTHON_BIN}" scripts/parse_results.py --raw-file "${RAW_FILE}" --db "${REPO_ROOT}/results/benchmark.db" --summary "${REPO_ROOT}/results/summary.json" --definition "${REPO_ROOT}/benchmark_specification.json" --run-dir "${RUN_DIR}" || die "parse failed"
 }
@@ -165,7 +171,7 @@ run_validate() {
   log_section "Validation"
   local validate_cmd
   printf -v validate_cmd '%q ' "${PYTHON_BIN}" scripts/validate_results.py --db "${REPO_ROOT}/results/benchmark.db" --config "${CONFIG_FILE}"
-  echo "[RUN] ${validate_cmd}"
+  log_run "${validate_cmd}"
   echo "${validate_cmd}" >> "${COMMAND_LOG}"
   "${PYTHON_BIN}" scripts/validate_results.py --db "${REPO_ROOT}/results/benchmark.db" --config "${CONFIG_FILE}" || die "validation failed"
 }

@@ -140,6 +140,16 @@
     "value": "-"
   },
   {
+    "field_name": "Validation Objective",
+    "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
+    "value": "Validates finite lmbench syscall, context-switch, memory-latency, memory-bandwidth, and pipe-bandwidth results"
+  },
+  {
+    "field_name": "Command Tools Executed",
+    "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
+    "value": "Run lmbench lat_syscall (null, read), lat_ctx, lat_mem_rd 16 128, bw_mem 512m rd, and bw_pipe"
+  },
+  {
     "field_name": "run_benchmark Command Plus Options for Smoke Run (One minute or less)",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
     "value": "bash run_benchmark.sh --smoke --validate --warmup-duration-us 1000 --repetitions 1"
@@ -155,29 +165,19 @@
     "value": "bash run_benchmark.sh --extended --validate --warmup-duration-us 10000 --repetitions 14"
   },
   {
-    "field_name": "Validation Objective",
-    "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "Validates one parseable float per executed subtest. lat_pipe, lat_unix, and lat_proc are not run"
-  },
-  {
-    "field_name": "Command Tools Executed",
-    "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "Run lmbench lat_syscall (null, read, write), lat_ctx, lat_mem_rd 16 128, bw_mem 512m rd, and bw_pipe"
-  },
-  {
     "field_name": "Command Execution Details and Purpose",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "Run lmbench lat_syscall (null, read, write), lat_ctx, lat_mem_rd 16 128, bw_mem 512m rd, and bw_pipe once per yaml repetitions, then parse the first float from each stdout, to measure syscall, context-switch, and memory-read latency plus memory and pipe bandwidth. lat_pipe, lat_unix, and lat_proc are not executed"
+    "value": "Run lmbench lat_syscall (null and read), lat_ctx, lat_mem_rd 16 128, bw_mem 512m rd, and bw_pipe once per yaml repetitions, then parse the first float from each stdout, to measure syscall, context-switch, and memory-read latency plus memory and pipe bandwidth"
   },
   {
     "field_name": "Command Methodology",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "Run lmbench lat_syscall (null, read, and write), lat_ctx, lat_mem_rd 16 128, bw_mem 512m rd, and bw_pipe once per yaml repetitions, then parse the first float from each stdout. Does not run lat_pipe, lat_unix, or lat_proc"
+    "value": "Run lmbench lat_syscall (null and read), lat_ctx, lat_mem_rd 16 128, bw_mem 512m rd, and bw_pipe once per yaml repetitions, then parse the first float from each stdout"
   },
   {
     "field_name": "Execution Description With Parameters",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "Runs a fixed lmbench subset: lat_syscall null, read, and write; lat_ctx; lat_mem_rd 16 128; bw_mem 512m rd; bw_pipe. repetitions: how many times the subset is repeated. warmup_duration_us: lmbench -W, microseconds each test runs untimed before it is timed (lat_mem_rd warms up once per array size). Every tool runs single-threaded (no -P). Per-test enable flags are not used. Does not run lat_pipe, lat_unix, or lat_proc"
+    "value": "Runs a fixed lmbench subset: lat_syscall null and read; lat_ctx; lat_mem_rd 16 128; bw_mem 512m rd; bw_pipe. repetitions: how many times the subset is repeated. warmup_duration_us: lmbench -W, microseconds each test runs untimed before it is timed (lat_mem_rd warms up once per array size). Every tool runs single-threaded (no -P). Per-test enable flags are not used"
   },
   {
     "field_name": "Execution Domain",
@@ -222,7 +222,7 @@
   {
     "field_name": "Output Fields / Metrics to Parse",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "benchmark, units, value. Benchmark names: lat_syscall_null_us, lat_syscall_read, lat_syscall_write, context_switch_latency_us, lat_mem_rd_16mb_stride128_ns, bw_mem_mb_s, bw_pipe_mb_s"
+    "value": "benchmark, units, value. Benchmark names: lat_syscall_null_us, lat_syscall_read, context_switch_latency_us, lat_mem_rd_16mb_stride128_ns, bw_mem_mb_s, bw_pipe_mb_s"
   },
   {
     "field_name": "Success Criteria",
@@ -327,7 +327,7 @@
   {
     "field_name": "Known Runtime Constraints (<=35 Words Each)",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "lmbench subtests need more than 8 s. Timeouts are 120 s for smoke and 180 s for baseline and extended. lat_pipe, lat_unix, and lat_proc are not run. Binaries come from /usr/lib/lmbench/bin or PATH"
+    "value": "lmbench subtests need more than 8 s. Timeouts are 120 s for smoke and 180 s for baseline and extended. Binaries come from /usr/lib/lmbench/bin or PATH"
   },
   {
     "field_name": "GPU Architecutre ID",
@@ -372,12 +372,12 @@
   {
     "field_name": "Installation and Execution Summary",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "Run lmbench lat_syscall (null, read, write), lat_ctx, lat_mem_rd 16 128, bw_mem 512m rd, and bw_pipe once per yaml repetitions, then parse the first float from each stdout, to measure syscall, context-switch, and memory-read latency plus memory and pipe bandwidth. lat_pipe, lat_unix, and lat_proc are not executed"
+    "value": "Run lmbench lat_syscall (null and read), lat_ctx, lat_mem_rd 16 128, bw_mem 512m rd, and bw_pipe once per yaml repetitions, then parse the first float from each stdout, to measure syscall, context-switch, and memory-read latency plus memory and pipe bandwidth"
   },
   {
     "field_name": "Workload Command Line Executable",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "Run lmbench lat_syscall (null, read, write), lat_ctx, lat_mem_rd 16 128, bw_mem 512m rd, and bw_pipe"
+    "value": "Run lmbench lat_syscall (null, read), lat_ctx, lat_mem_rd 16 128, bw_mem 512m rd, and bw_pipe"
   },
   {
     "field_name": "ROCm Version",
@@ -392,7 +392,7 @@
   {
     "field_name": "Execution Summary (Run and Measure)",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "Run lmbench lat_syscall (null, read, write), lat_ctx, lat_mem_rd 16 128, bw_mem 512m rd, and bw_pipe once per yaml repetitions, then parse the first float from each stdout, to measure syscall, context-switch, and memory-read latency plus memory and pipe bandwidth. lat_pipe, lat_unix, and lat_proc are not executed"
+    "value": "Run lmbench lat_syscall (null and read), lat_ctx, lat_mem_rd 16 128, bw_mem 512m rd, and bw_pipe once per yaml repetitions, then parse the first float from each stdout, to measure syscall, context-switch, and memory-read latency plus memory and pipe bandwidth"
   },
   {
     "field_name": "nVidia Porting Instructions (Reference Only)",
@@ -412,7 +412,7 @@
   {
     "field_name": "Profile Parameter Values",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Parameters_SmokeBaselineExtend",
-    "value": "{\"warmup_duration_us\": {\"smoke\": \"1000\", \"baseline\": \"10000\", \"extended\": \"10000\", \"notes\": \"Now passed as lmbench -W (microseconds); lat_mem_rd 16 128 warms up once per array size, so 1 s added about a minute per repetition\"}, \"repetitions\": {\"smoke\": \"1\", \"baseline\": \"5\", \"extended\": \"14\", \"notes\": \"VM 2026-08-16 repetitions=36 -> 201s (3:21). Extended 107 extrapolated ~10:00, not tested. Retimed 2026-08-17 toward 3-4 min baseline; extended scaled by the same factor. | 2026-09-24 GARY_LEDGER (runtime_ledger_ALL_FOUR / Edit3, Gary questions; targets baseline ~4:00 in 3-5 min, extended ~11:30 in 8-15 min): 5/7 -> 3/9. baseline reps=5 measured 4:50/6:01/8:19/15:50 (median ~7:10, ~86s/rep); extended reps=7 measured 5:46/8:03/9:10/9:46 (~74s/rep) -> 3 (~4:00) / 9 (~11:10). Same lmbench run-to-run spread as 112. Unconfirmed by a fresh run. | 2026-09-28 GARY_LEDGER (aggregated_runtime_ledgers_101_201_301_401_20260928_9am; targets baseline 3-5 min, extended 8-15 min): 3/9 -> 5/9. baseline 3 measured 2:11/2:20 (~45 s/repetition) -> 5 (~3:45). Extended 9 measured 9:09/13:14, left unchanged. Unconfirmed by a fresh run.\"}}"
+    "value": "{\"warmup_duration_us\": {\"smoke\": \"1000\", \"baseline\": \"10000\", \"extended\": \"10000\"}, \"repetitions\": {\"smoke\": \"1\", \"baseline\": \"5\", \"extended\": \"14\"}}"
   },
   {
     "field_name": "Profile Command Authorship",

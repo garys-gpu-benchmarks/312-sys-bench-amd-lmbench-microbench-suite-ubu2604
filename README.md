@@ -49,14 +49,13 @@ Profile values live in `config/benchmark_config.yaml`.
 - The smoke profile is a quick check with reduced sizes and iteration counts. Use `--baseline` or `--extended` for representative numbers.
 - lmbench subtests need more than 8 s.
 - Timeouts are 120 s for smoke and 180 s for baseline and extended.
-- lat_pipe, lat_unix, and lat_proc are not run.
 - Binaries come from /usr/lib/lmbench/bin or PATH.
 
 ## Output
 
 | Path | Contents |
 |---|---|
-| `results/raw/<timestamp>_<repo>_<host>/` | Raw tool output, `metrics_summary.txt`, and `hardware_info.txt`, `software_info.txt`, `errors_info.txt` |
+| `results/raw/YYYYMMDD_HHMMSSZ_WORKLOAD-<NNN>_SYSTEM-<hostname>/` | Raw tool output, `metrics_summary.txt`, and `hardware_info.txt`, `software_info.txt`, `errors_info.txt` |
 | `results/benchmark.db` | SQLite history of every run |
 | `results/summary.json` | Metrics from the most recent run |
 | `/var/opt/benchmarks/runtime_ledger.csv` | One row per run, shared by every workload on the host |
