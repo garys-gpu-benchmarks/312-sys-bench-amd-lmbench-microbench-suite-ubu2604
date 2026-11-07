@@ -30,7 +30,9 @@ Profiles (default: --smoke):
   --extended                    Run extended profile
 
 Parameters (override the profile's value):
-  --warmup-duration-us <value>  Shared workload parameter (smoke 1000, baseline 10000, extended 10000)
+  --warmup-duration-us <value>  Shared workload parameter
+                                  smoke:             1000
+                                  baseline/extended: 10000
   --repetitions <value>         Shared workload parameter (smoke 1, baseline 5, extended 14)
 
 General options:
