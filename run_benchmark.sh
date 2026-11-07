@@ -16,12 +16,11 @@ capture_benchmark_run_command_submitted "$@"
 
 usage() {
   cat <<'USAGE'
+
 Usage: bash run_benchmark.sh [OPTIONS]
 
 Workload Name:          lmbench Microbench Suite.
 Main Goal:              Measure a fixed lmbench OS microbenchmark subset.
-Validation Objective:   Validates finite lmbench syscall, context-switch, memory-latency,
-                        memory-bandwidth, and pipe-bandwidth results.
 Command Tools Executed: Run lmbench lat_syscall (null, read), lat_ctx, lat_mem_rd 16 128, bw_mem
                         512m rd, and bw_pipe.
 
